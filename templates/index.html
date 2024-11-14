@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Delete Background</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        color: #333;
+      }
+      .drop-zone {
+        border: 2px dashed #ffffff;
+        border-radius: 10px;
+        padding: 30px;
+        width: 70vw;
+        max-width: 600px;
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .drop-zone.dragover {
+        background-color: #ffffff;
+        border-color: #04ff00;
+      }
+      .drop-zone h1 {
+        font-size: 24px;
+        color: #000000;
+        margin-bottom: 15px;
+      }
+      .drop-zone p {
+        color: #00ff1e;
+        margin-bottom: 20px;
+      }
+      #fileInput {
+        display: none;
+      }
+      .upload-btn {
+        padding: 10px 20px;
+        background-color: #ffffff;
+        color: rgb(0, 0, 0);
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .upload-btn:hover {
+        background-color: #6ee54a;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dropZone" class="drop-zone">
+      <h1>Delete The Background</h1>
+      <form
+        id="uploadForm"
+        action="/"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input id="fileInput" type="file" name="file" />
+        <input type="submit" value="Image Here" />
+      </form>
+    </div>
+
+    <script>
+      let dropZone = document.getElementById("dropZone");
+      let fileInput = document.getElementById("fileInput");
+      let uploadForm = document.getElementById("uploadForm");
+
+      dropZone.addEventListener("click", function () {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+          uploadForm.submit();
+        }
+      });
+
+      dropZone.addEventListener("dragover", function (e) {
+        this.classList.add("dragover");
+      });
+
+      dropZone.addEventListener("dragleave", function (e) {
+        this.classList.remove("dragover");
+      });
+
+      dropZone.addEventListener("drop", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove("dragover");
+
+        let file = e.dataTransfer.files[0];
+        fileInput.files = e.dataTransfer.files;
+        uploadForm.submit();
+      });
+    </script>
+  </body>
+</html>
